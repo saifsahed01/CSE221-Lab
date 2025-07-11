@@ -161,3 +161,44 @@ for right in range(N):
         max_length = right - left + 1
 
 print(max_length)
+
+
+#Task G
+n, q = map(int, input().split())
+
+if not (1 <= n <= 10**5) or not (1 <= q <= 10**5):
+    exit()
+
+arr = list(map(int, input().split()))
+
+if len(arr) != n or any(not (1 <= val <= 10**9) for val in arr):
+    exit()
+
+def find_left(x):
+    low, high = 0, n
+    while low < high:
+        mid = (low + high) // 2
+        if arr[mid] < x:
+            low = mid + 1
+        else:
+            high = mid
+    return low
+
+def find_right(y):
+    low, high = 0, n
+    while low < high:
+        mid = (low + high) // 2
+        if arr[mid] <= y:
+            low = mid + 1
+        else:
+            high = mid
+    return low
+
+for i in range(q):
+    x, y = map(int, input().split())
+    if not (1 <= x <= y <= 10**9):
+        exit()
+    
+    left = find_left(x) 
+    right = find_right(y) 
+    print(right - left)

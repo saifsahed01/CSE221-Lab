@@ -241,7 +241,6 @@ for y in range(T):
         exit()
         
     i, j = 1, 1
-    lst1 = []
     
     while j < k+1:
         if i%x != 0:

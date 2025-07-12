@@ -226,3 +226,26 @@ for i in range(q):
     left = find_left(x) 
     right = find_right(y) 
     print(right - left)
+
+
+
+
+#Task H
+T = int(input())
+if not (1 <= T <= 10**5):
+    exit()
+    
+for y in range(T):
+    k, x = map(int, input().split())
+    if not (1 <= k <= 10**9) or not (1 < x <= 10**9):
+        exit()
+        
+    i, j = 1, 1
+    lst1 = []
+    
+    while j < k+1:
+        if i%x != 0:
+            j += 1
+        i += 1    
+        
+    print(i-1)

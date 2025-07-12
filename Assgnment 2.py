@@ -61,7 +61,31 @@ print(closest_i + 1, closest_j + 1)
 
 
 #Task C
+n, x = map(int, input().split())
 
+if not (1 <= n <= 5000) or not (1 <= x <= 10**9):
+    exit()
+    
+arr = list(map(int, input().split()))
+
+if len(arr) != n or not all(1 <= i <= 10**9 for i in arr):
+    exit()
+
+for i in range(n - 2):
+    target = x - arr[i]
+    left, right = i + 1, n - 1
+    
+    while left < right:
+        current_sum = arr[left] + arr[right]
+        if current_sum == target:
+            print(i + 1, left + 1, right + 1)
+            exit()
+            
+        elif current_sum < target:
+            left += 1  
+        else:
+            right -= 1  
+print(-1)
 
 
 

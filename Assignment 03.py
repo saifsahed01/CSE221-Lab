@@ -123,3 +123,23 @@ bst_order(arr, 0, n - 1, res)
 for x in res:
     print(x, end = ' ')
 
+
+
+#TASK G
+n = int(input())
+inorder = list(map(int, input().split()))
+preorder = list(map(int, input().split()))
+index = {v: i for i, v in enumerate(inorder)}
+res = []
+def solve(il, ir, pl, pr):
+    if il > ir or pl > pr:
+        return
+    root = preorder[pl]
+    k = index[root]
+    left = k - il
+    solve(il, k-1, pl+1, pl+left)
+    solve(k+1, ir, pl+left+1, pr)
+    res.append(root)
+solve(0, n-1, 0, n-1)
+print(*res)
+

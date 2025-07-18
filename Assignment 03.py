@@ -69,3 +69,16 @@ N = int(input())
 arr = list(map(int, input().split()))
 print(count_special_inversions(arr))
 
+
+
+#TASK C
+def mod_pow(a, b, mod):
+    if b == 0:
+        return 1
+    half = mod_pow(a, b // 2, mod)
+    result = (half * half) % mod
+    if b % 2 == 1:
+        result = (result * a) % mod
+    return result
+a, b = map(int, input().split())
+print(mod_pow(a, b, 107))

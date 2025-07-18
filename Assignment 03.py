@@ -82,3 +82,26 @@ def mod_pow(a, b, mod):
     return result
 a, b = map(int, input().split())
 print(mod_pow(a, b, 107))
+
+
+
+#TASK D
+
+
+
+#TASK E
+def geometric_sum(a, n, m):
+    if n == 0:
+        return 0
+    if n == 1:
+        return a % m
+    if n % 2 == 0:
+        half = geometric_sum(a, n // 2, m)
+        apow = pow(a, n // 2, m)
+        return (half + apow * half) % m
+    else:
+        return (geometric_sum(a, n - 1, m) + pow(a, n, m)) % m
+T = int(input())
+for _ in range(T):
+    a, n, m = map(int, input().split())
+    print(geometric_sum(a, n, m))

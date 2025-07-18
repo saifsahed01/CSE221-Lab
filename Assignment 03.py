@@ -105,3 +105,21 @@ T = int(input())
 for _ in range(T):
     a, n, m = map(int, input().split())
     print(geometric_sum(a, n, m))
+
+
+
+#TASK F
+def bst_order(arr, l, r, res):
+    if l > r:
+        return
+    mid = (l + r) // 2
+    res.append(arr[mid])
+    bst_order(arr, l, mid - 1, res)
+    bst_order(arr, mid + 1, r, res)
+n = int(input())
+arr = list(map(int, input().split()))
+res = []
+bst_order(arr, 0, n - 1, res)
+for x in res:
+    print(x, end = ' ')
+

@@ -86,6 +86,47 @@ print(mod_pow(a, b, 107))
 
 
 #TASK D
+import sys
+
+MOD = 10**9 + 7
+
+def mat_pow(a11, a12, a21, a22, n):
+    r11, r12, r21, r22 = 1, 0, 0, 1 
+    while n:
+        if n % 2 == 1:
+            t11 = (r11*a11 + r12*a21) % MOD
+            t12 = (r11*a12 + r12*a22) % MOD
+            t21 = (r21*a11 + r22*a21) % MOD
+            t22 = (r21*a12 + r22*a22) % MOD
+            r11, r12, r21, r22 = t11, t12, t21, t22
+        t11 = (a11*a11 + a12*a21) % MOD
+        t12 = (a11*a12 + a12*a22) % MOD
+        t21 = (a21*a11 + a22*a21) % MOD
+        t22 = (a21*a12 + a22*a22) % MOD
+        a11, a12, a21, a22 = t11, t12, t21, t22
+        n //= 2
+    return r11, r12, r21, r22
+
+def main():
+    input = sys.stdin.read
+    data = list(map(int, input().split()))
+    idx = 0
+    T = data[idx]
+    idx += 1
+    out = []
+    for _ in range(T):
+        a11 = data[idx]
+        a12 = data[idx+1]
+        a21 = data[idx+2]
+        a22 = data[idx+3]
+        x = data[idx+4]
+        idx += 5
+        r11, r12, r21, r22 = mat_pow(a11, a12, a21, a22, x)
+        out.append(f"{r11} {r12}\n{r21} {r22}")
+    sys.stdout.write('\n'.join(out)+'\n')
+
+if __name__ == "__main__":
+    main()
 
 
 

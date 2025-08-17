@@ -174,7 +174,70 @@ for _ in range(Q):
     print(subtree[X])
 
 
+#Task F
+import sys
+input = sys.stdin.readline
+N, M = map(int, input().split())
+adj = [[] for _ in range(N+1)]
+for _ in range(M):
+    u, v = map(int, input().split())
+    adj[u].append(v)
+colour = [0] * (N + 1)
+def has_cycle(start):
+    stack = [(start, 0)] 
+    while stack:
+        u, idx = stack[-1]
+
+        if colour[u] == 0:
+            colour[u] = 1    
+        if idx == len(adj[u]):
+            colour[u] = 2    
+            stack.pop()
+            continue
+        v = adj[u][idx]
+        stack[-1] = (u, idx+1)     
+
+        if colour[v] == 0:
+            stack.append((v, 0))
+        elif colour[v] == 1:
+            return True
+    return False
+for i in range(1, N+1):
+    if colour[i] == 0:
+        if has_cycle(i):
+            print("YES")
+            break
+else:
+    print("NO")
 
 
+#Task G
+R, H = map(int, input().split())
+grid = [list(input().strip()) for _ in range(R)]
+vis = [[False]*H for _ in range(R)]
+def dfs(sr, sc):
+    stack = [(sr, sc)]
+    vis[sr][sc] = True
+    diamonds = 0
+    if grid[sr][sc] == 'D':
+        diamonds += 1
+    while stack:
+        r, c = stack.pop()
+        for dr, dc in ((1,0),(-1,0),(0,1),(0,-1)):
+            nr, nc = r+dr, c+dc
+            if 0 <= nr < R and 0 <= nc < H:
+                if not vis[nr][nc] and grid[nr][nc] != '#':
+                    vis[nr][nc] = True
+                    if grid[nr][nc] == 'D':
+                        diamonds += 1
+                    stack.append((nr, nc))
+    return diamonds
+answer = 0
+for i in range(R):
+    for j in range(H):
+        if not vis[i][j] and grid[i][j] != '#':
+            cnt = dfs(i, j)
+            answer = max(answer, cnt)
+print(answer)
 
 

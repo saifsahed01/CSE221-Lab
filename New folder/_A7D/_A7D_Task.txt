@@ -1,0 +1,72 @@
+Task:
+Given a simple directed weighted graph with N nodes and M edges, where the
+weights W[i] are on the nodes (not on the edges), and two nodes S and D, find
+(if there is any) the length of the shortest path from S to D.
+The nodes are numbered from 1 to N.
+
+Input:
+First line contains the number of tests. The description of each test follows.
+Each test is described by (M+2) lines. First line contains N, M, S, D. Second
+line contains N integers, W[i]. Each of the remaining M lines contains U[i] and
+V[i] indicating that there is an edge from U[i] to V[i].
+
+Output:
+For each test in the given order, print one integer in one line. If there is no
+path which satisfies the conditions you are given in this task then the integer
+is -1. Otherewise, the integer is the length of the shortest path that you are
+asked to find in this task.
+
+Example-1 (batch-1):
+Input (stdin):
+2
+4 3 1 2
+3 4 5 4
+1 2
+3 2
+4 3
+6 5 5 3
+3 3 4 3 4 1
+1 2
+4 1
+1 6
+6 2
+4 6
+Output (stdout):
+7
+-1
+
+Example-2 (batch-2):
+Input (stdin):
+2
+5 7 3 5
+3 8 2 6 6
+1 5
+1 4
+5 3
+4 5
+2 5
+3 4
+2 3
+2 1 1 1
+7 6
+2 1
+Output (stdout):
+14
+7
+
+Scoring:
+Batch   Score   Tests   Constraints
+1       0.1     2       2<=N<=10, 1<=M<=10, 1<=W[i]<=10, 1<=S<=N, 1<=D<=N
+2       0.1     2       2<=N<=10, 1<=M<=10, 1<=W[i]<=10, 1<=S<=N, 1<=D<=N
+3       0.2     2000    2<=N<=20, 1<=M<=30, 1<=W[i]<=100, 1<=S<=N, 1<=D<=N
+4       0.3     20      2<=N<=10000, 1<=M<=15000, 1<=W[i]<=10000, 1<=S<=N, 1<=D<=N
+5       0.3     2       2<=N<=100000, 1<=M<=150000, 1<=W[i]<=1000000, 1<=S<=N, 1<=D<=N
+------------------------
+5       1       Total
+
+Time limit: 1s (cpp) or 1.5s (java) or 3s (py) per batch.
+
+Hints:
+- Use fast input/output methods.
+- 0.2 score for passing only sample batches.
+- O((M+N)log(M+N)) solution is expected.

@@ -86,67 +86,54 @@ print(mod_pow(a, b, 107))
 
 
 #TASK D
-import sys
-
 MOD = 10**9 + 7
-
 def mat_pow(a11, a12, a21, a22, n):
     r11, r12, r21, r22 = 1, 0, 0, 1 
-    while n:
+    A11, A12, A21, A22 = a11, a12, a21, a22
+    while n > 0:
         if n % 2 == 1:
-            t11 = (r11*a11 + r12*a21) % MOD
-            t12 = (r11*a12 + r12*a22) % MOD
-            t21 = (r21*a11 + r22*a21) % MOD
-            t22 = (r21*a12 + r22*a22) % MOD
+            t11 = (r11 * A11 + r12 * A21) % MOD
+            t12 = (r11 * A12 + r12 * A22) % MOD
+            t21 = (r21 * A11 + r22 * A21) % MOD
+            t22 = (r21 * A12 + r22 * A22) % MOD
             r11, r12, r21, r22 = t11, t12, t21, t22
-        t11 = (a11*a11 + a12*a21) % MOD
-        t12 = (a11*a12 + a12*a22) % MOD
-        t21 = (a21*a11 + a22*a21) % MOD
-        t22 = (a21*a12 + a22*a22) % MOD
-        a11, a12, a21, a22 = t11, t12, t21, t22
-        n //= 2
+        t11 = (A11 * A11 + A12 * A21) % MOD
+        t12 = (A11 * A12 + A12 * A22) % MOD
+        t21 = (A21 * A11 + A22 * A21) % MOD
+        t22 = (A21 * A12 + A22 * A22) % MOD
+        A11, A12, A21, A22 = t11, t12, t21, t22
+        n //= 2 
     return r11, r12, r21, r22
-
-def main():
-    input = sys.stdin.read
-    data = list(map(int, input().split()))
-    idx = 0
-    T = data[idx]
-    idx += 1
-    out = []
-    for _ in range(T):
-        a11 = data[idx]
-        a12 = data[idx+1]
-        a21 = data[idx+2]
-        a22 = data[idx+3]
-        x = data[idx+4]
-        idx += 5
-        r11, r12, r21, r22 = mat_pow(a11, a12, a21, a22, x)
-        out.append(f"{r11} {r12}\n{r21} {r22}")
-    sys.stdout.write('\n'.join(out)+'\n')
-
-if __name__ == "__main__":
-    main()
+T = int(input()) 
+for _ in range(T):
+    a11, a12, a21, a22 = map(int, input().split())
+    x = int(input())
+    r11, r12, r21, r22 = mat_pow(a11, a12, a21, a22, x)
+    print(f"{r11} {r12}")
+    print(f"{r21} {r22}")
 
 
 
 #TASK E
-def geometric_sum(a, n, m):
-    if n == 0:
-        return 0
+def fast_series_sum(a, n, m):
     if n == 1:
-        return a % m
+        return a % m, a % m
     if n % 2 == 0:
-        half = geometric_sum(a, n // 2, m)
-        apow = pow(a, n // 2, m)
-        return (half + apow * half) % m
+        S_half, P_half = fast_series_sum(a, n // 2, m)
+        S = (S_half + (P_half * S_half) % m) % m
+        P = (P_half * P_half) % m
+        return S, P
     else:
-        return (geometric_sum(a, n - 1, m) + pow(a, n, m)) % m
+        S_prev, P_prev = fast_series_sum(a, n - 1, m)
+        S = (S_prev + (P_prev * a) % m) % m
+        P = (P_prev * a) % m
+        return S, P
+ 
 T = int(input())
 for _ in range(T):
     a, n, m = map(int, input().split())
-    print(geometric_sum(a, n, m))
-
+    ans, _ = fast_series_sum(a, n, m)
+    print(ans)
 
 
 #TASK F
@@ -157,6 +144,7 @@ def bst_order(arr, l, r, res):
     res.append(arr[mid])
     bst_order(arr, l, mid - 1, res)
     bst_order(arr, mid + 1, r, res)
+ 
 n = int(input())
 arr = list(map(int, input().split()))
 res = []
@@ -170,8 +158,10 @@ for x in res:
 n = int(input())
 inorder = list(map(int, input().split()))
 preorder = list(map(int, input().split()))
+ 
 index = {v: i for i, v in enumerate(inorder)}
 res = []
+ 
 def solve(il, ir, pl, pr):
     if il > ir or pl > pr:
         return
@@ -181,6 +171,28 @@ def solve(il, ir, pl, pr):
     solve(il, k-1, pl+1, pl+left)
     solve(k+1, ir, pl+left+1, pr)
     res.append(root)
+ 
+solve(0, n-1, 0, n-1)
+print(*res)
+
+#Task H
+n = int(input())
+inorder = list(map(int, input().split()))
+postorder = list(map(int, input().split()))
+ 
+index = {v: i for i, v in enumerate(inorder)}
+res = []
+ 
+def solve(il, ir, pl, pr):
+    if il > ir or pl > pr:
+        return
+    root = postorder[pr]
+    res.append(root)
+    k = index[root]
+    left = k - il
+    solve(il, k-1, pl, pl+left-1)
+    solve(k+1, ir, pl+left, pr-1)
+ 
 solve(0, n-1, 0, n-1)
 print(*res)
 
